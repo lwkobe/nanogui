@@ -56,12 +56,6 @@ public:
     /// Set the position relative to the parent widget
     void setPosition(const Vector2i &pos) { mPos = pos; }
 
-    /// Return the absolute position on screen
-    Vector2i absolutePosition() const {
-        return mParent ?
-            (parent()->absolutePosition() + mPos) : mPos;
-    }
-
     /// Return the size of the widget
     const Vector2i &size() const { return mSize; }
     /// set the size of the widget
@@ -178,8 +172,11 @@ public:
         return (d >= 0).all() && (d < mSize.array()).all();
     }
 
+    /// Return the absolute position on screen
+    virtual Vector2i absolutePosition() const;
+
     /// Determine the widget located at the given position value (recursive)
-    Widget *findWidget(const Vector2i &p);
+    virtual Widget *findWidget(const Vector2i &p);
 
     /// Handle a mouse button event (default implementation: propagate to children)
     virtual bool mouseButtonEvent(const Vector2i &p, int button, bool down, int modifiers);

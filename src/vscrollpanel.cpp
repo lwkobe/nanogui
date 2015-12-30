@@ -125,4 +125,22 @@ bool VScrollPanel::load(Serializer &s) {
     return true;
 }
 
+Vector2i VScrollPanel::absolutePosition() const {
+    int shift = (int) (mScroll*(mChildPreferredHeight - mSize.y()));
+    Vector2i mPosShifted(mPos.x(), mPos.y() - shift);
+    return mParent ?
+        (parent()->absolutePosition() + mPosShifted) : mPosShifted;
+}
+
+Widget *VScrollPanel::findWidget(const Vector2i &p) {
+    if (!mChildren.empty()) {
+        Widget *child = mChildren[0];
+        int shift = (int) (mScroll*(mChildPreferredHeight - mSize.y()));
+        Vector2i pShifted(p.x(), p.y() + shift);
+        if (child->visible() && child->contains(pShifted - mPos))
+            return child->findWidget(pShifted - mPos);
+    }
+    return contains(p) ? this : nullptr;
+}
+
 NAMESPACE_END(nanogui)

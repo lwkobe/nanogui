@@ -64,6 +64,11 @@ void Widget::performLayout(NVGcontext *ctx) {
     }
 }
 
+Vector2i Widget::absolutePosition() const {
+    return mParent ?
+        (parent()->absolutePosition() + mPos) : mPos;
+}
+
 Widget *Widget::findWidget(const Vector2i &p) {
     for (auto it = mChildren.rbegin(); it != mChildren.rend(); ++it) {
         Widget *child = *it;

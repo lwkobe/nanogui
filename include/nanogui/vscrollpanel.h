@@ -29,6 +29,8 @@ public:
     virtual void draw(NVGcontext *ctx);
     virtual void save(Serializer &s) const;
     virtual bool load(Serializer &s);
+    virtual Vector2i absolutePosition() const;
+    virtual Widget *findWidget(const Vector2i &p);
 protected:
     int mChildPreferredHeight;
     float mScroll;
